@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>UMUKA - Pendaftaran Akun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-animation .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            animation: float 20s infinite;
+        }
+
+        .bg-animation .circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .bg-animation .circle:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            bottom: -200px;
+            right: -150px;
+            animation-delay: 5s;
+        }
+
+        .bg-animation .circle:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 70%;
+            animation-delay: 10s;
+        }
+
+        .bg-animation .circle:nth-child(4) {
+            width: 400px;
+            height: 400px;
+            bottom: 20%;
+            left: -150px;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(5deg);
+            }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Card */
+        .card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Header */
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 8s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(10deg);
+            }
+        }
+
+        .logo-icon {
+            font-size: 64px;
+            color: white;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .card-header h1 {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .card-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        /* Body Form */
+        .card-body {
+            padding: 40px 30px;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+            color: #667eea;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            color: #94a3b8;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+            color: #1e293b;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input:hover,
+        .form-group select:hover {
+            border-color: #764ba2;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit i {
+            margin-right: 10px;
+        }
+
+        /* Message Alert */
+        .alert {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 16px;
+            display: none;
+            animation: slideDown 0.4s ease-out;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-left: 4px solid #fff;
+        }
+
+        .alert-error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border-left: 4px solid #fff;
+        }
+
+        .alert i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* Info Section */
+        .info-section {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .info-section p {
+            color: #64748b;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .info-section i {
+            color: #667eea;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .card-body {
+                padding: 30px 20px;
+            }
+            
+            .card-header {
+                padding: 30px 20px;
+            }
+            
+            .card-header h1 {
+                font-size: 24px;
+            }
+            
+            .logo-icon {
+                font-size: 48px;
+            }
+        }
+
+        /* Success Check Animation */
+        .checkmark {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleUp 0.5s ease-out;
+        }
+
+        .checkmark i {
+            font-size: 30px;
+            color: white;
+        }
+
+        @keyframes scaleUp {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h1>Daftar Akun UMUKA</h1>
+                <p>Bergabunglah bersama ribuan mahasiswa lainnya</p>
+            </div>
+            
+            <div class="card-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-user"></i> Nama Lengkap
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="name" placeholder="Masukkan nama lengkap" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-envelope"></i> Email
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="email" placeholder="contoh@email.com" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-book"></i> Program Studi
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-graduation-cap input-icon"></i>
+                            <select id="prodi" required>
+                                <option value="" disabled selected>Pilih Program Studi</option>
+                                <option>🏫 Teknik Informatika</option>
+                                <option>💻 Sistem Informasi</option>
+                                <option>🖥️ Teknik Komputer</option>
+                                <option>📊 Manajemen Informatika</option>
+                                <option>⚡ Teknik Elektro</option>
+                                <option>📡 Teknik Telekomunikasi</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Daftar Sekarang</span>
+                    </button>
+                </form>
+
+                <div id="message" class="alert"></div>
+
+                <div class="info-section">
+                    <p>
+                        <i class="fas fa-clock"></i> Pendaftaran diproses dalam antrian
+                        <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                    </p>
+                    <p style="margin-top: 8px; font-size: 11px;">
+                        <i class="fas fa-shield-alt"></i> Data Anda aman dan terenkripsi
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission handler
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const prodi = document.getElementById('prodi').value;
+            const messageDiv = document.getElementById('message');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnSpan = submitBtn.querySelector('span');
+            const btnIcon = submitBtn.querySelector('i');
+            
+            // Validate
+            if (!name || !email || !prodi) {
+                showMessage('error', '❌ Semua field harus diisi!');
+                shakeForm();
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showMessage('error', '❌ Format email tidak valid!');
+                shakeForm();
+                return;
+            }
+            
+            // Disable button & show loading
+            submitBtn.disabled = true;
+            const originalText = btnSpan.textContent;
+            btnSpan.innerHTML = '<span class="spinner"></span>Memproses...';
+            btnIcon.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, prodi })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Show success with animation
+                    showMessage('success', `
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div class="checkmark" style="width: 40px; height: 40px;">
+                                <i class="fas fa-check" style="font-size: 20px;"></i>
+                            </div>
+                            <div>
+                                <strong>${result.message}</strong><br>
+                                <small>📧 ${result.user.email}</small>
+                            </div>
+                        </div>
+                    `);
+                    
+                    // Reset form with animation
+                    document.getElementById('registerForm').reset();
+                    
+                    // Add success effect to card
+                    const card = document.querySelector('.card');
+                    card.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        card.style.transform = '';
+                    }, 300);
+                    
+                } else {
+                    showMessage('error', `❌ ${result.error || 'Terjadi kesalahan'}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('error', '❌ Gagal terhubung ke server. Periksa koneksi Anda.');
+            } finally {
+                // Reset button
+                submitBtn.disabled = false;
+                btnSpan.textContent = originalText;
+                btnIcon.style.display = 'inline-block';
+            }
+            
+            // Auto hide message after 5 seconds
+            setTimeout(() => {
+                const alert = document.querySelector('.alert');
+                if (alert && !alert.matches(':hover')) {
+                    alert.style.display = 'none';
+                }
+            }, 5000);
+        });
+        
+        // Show message function
+        function showMessage(type, text) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.className = `alert alert-${type === 'success' ? 'success' : 'error'}`;
+            messageDiv.innerHTML = text;
+            messageDiv.style.display = 'block';
+            
+            // Scroll to message
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // Shake animation for error
+        function shakeForm() {
+            const card = document.querySelector('.card');
+            card.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                card.style.animation = '';
+            }, 500);
+        }
+        
+        // Add shake keyframe
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Add input focus effects
+        const inputs = document.querySelectorAll('.form-group input, .form-group select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                const wrapper = input.closest('.form-group');
+                wrapper.style.transform = 'translateX(5px)';
+            });
+            input.addEventListener('blur', () => {
+                const wrapper = input.closest('.form-group');
+                wrapper.style.transform = '';
+            });
+        });
+        
+        // Live validation for email
+        document.getElementById('email').addEventListener('input', (e) => {
+            const email = e.target.value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const inputWrapper = e.target.closest('.input-wrapper');
+            
+            if (email && !emailRegex.test(email)) {
+                e.target.style.borderColor = '#ef4444';
+            } else {
+                e.target.style.borderColor = '#e2e8f0';
+            }
+        });
+        
+        // Character counter for name
+        document.getElementById('name').addEventListener('input', (e) => {
+            const length = e.target.value.length;
+            if (length > 0 && length < 3) {
+                e.target.style.borderColor = '#f59e0b';
+            } else if (length >= 3) {
+                e.target.style.borderColor = '#10b981';
+            } else {
+                e.target.style.borderColor = '#e2e8f0';
+            }
+        });
+    </script>
+</body>
+</html>
